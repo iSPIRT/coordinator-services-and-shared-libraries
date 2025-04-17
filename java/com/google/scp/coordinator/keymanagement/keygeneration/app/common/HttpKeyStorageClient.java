@@ -225,7 +225,7 @@ public final class HttpKeyStorageClient implements KeyStorageClient {
   }
 
   private URI getCreateUri() {
-    return URI.create(String.format("%s/encryptionKeys", createKeyBaseUrl));
+    return URI.create(String.format("%s/v1alpha/encryptionKeys", createKeyBaseUrl));
   }
 
   private URI getGetDataKeyUri() {
