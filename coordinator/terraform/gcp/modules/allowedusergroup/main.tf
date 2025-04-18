@@ -18,6 +18,14 @@ terraform {
   }
 }
 
+provider "google" {
+  project               = var.project_id
+  # explicitly set the billing project and user project override to facilitate group creation which requires
+  # billing project to be set
+  billing_project       = var.project_id
+  user_project_override = true
+}
+
 data "google_organization" "org" {
   count  = var.customer_id == null ? 1 : 0
   domain = var.organization_domain
