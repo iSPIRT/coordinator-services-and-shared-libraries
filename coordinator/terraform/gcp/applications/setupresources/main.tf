@@ -23,6 +23,10 @@ terraform {
   }
 }
 
+provider "google" {
+  project = var.project_id
+}
+
 # Creates hosted zone with NS records
 resource "google_dns_managed_zone" "hosted_zone" {
   project = var.project_id

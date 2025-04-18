@@ -17,8 +17,14 @@ locals {
   cloud_functions         = local.use_cloud_function ? [for cf in google_cloudfunctions2_function.get_public_key_cloudfunction : cf] : []
   cloud_function_a_name   = local.use_cloud_function ? local.cloud_functions[0].name : null
   cloud_function_a_region = local.use_cloud_function ? local.cloud_functions[0].location : null
-  cloud_function_b_name   = local.use_cloud_function ? local.cloud_functions[1].name : null
-  cloud_function_b_region = local.use_cloud_function ? local.cloud_functions[1].location : null
+  
+  # this to facilitate the case where both coordinator deployed in the same region so there can only be one cloud function
+  cloud_function_b_name   = local.use_cloud_function ? (
+    length(local.cloud_functions) > 1 ? local.cloud_functions[1].name : local.cloud_functions[0].name
+  ) : null
+  cloud_function_b_region = local.use_cloud_function ? (
+    length(local.cloud_functions) > 1 ? local.cloud_functions[1].location : local.cloud_functions[0].location
+  ) : null
 }
 
 module "load_balancer_alarms" {
